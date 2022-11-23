@@ -1,14 +1,17 @@
 import { createRef, useEffect, useState } from "react";
 import { Tools, Other } from "./components/header/";
-import { Input, Output, LineNumber } from "./components/content/";
+import { Input, Output, LineNumber, Help } from "./components/content/";
 import { TextArea } from "./components/inputs";
 import { marked } from "marked";
 import useLocalStorage from "./hooks/useLocalStorage";
+import initVal from "./utils/initVal";
 
-function App() {
-  const initVal = `# Welcome To Markdown Editor`
-  const [mdInput, setMdInput] = useLocalStorage("mdInput", initVal);
+export default function App() {
+  const init = initVal()
+
+  const [mdInput, setMdInput] = useLocalStorage("mdInput", init);
   const [lineNumber, setLineNumber] = useState(0);
+  const [showHelp, setShowHelp] = useState(false)
   const textAreaRef = createRef()
 
   useEffect(() => {
@@ -19,20 +22,22 @@ function App() {
     <div className="App">
       <header
         className="
-          sticky top-0
+          sticky top-0 
           flex flex-col sm:flex-row-reverse
           justify-center sm:justify-between 
-          h-20vh sm:h-[5vh]
-          px-2 bg-gray-600"
-      >
-        <Other mdInput={mdInput} />
+          px-2 bg-gray-600
+          pt-2 sm:pt-0
+        ">
+        <Other mdInput={mdInput} showHelp={showHelp} setShowHelp={setShowHelp} />
         <Tools setMdInput={setMdInput} textAreaRef={textAreaRef} />
       </header>
 
       <main
         className="
-            grid grid-cols-1 h-[90vh]
-            sm:grid-cols-2 sm:h-[95vh]"
+            grid grid-cols-1
+            sm:grid-cols-2 
+            min-h-screen
+        "
       >
         <Input>
           <LineNumber num={lineNumber} />
@@ -44,9 +49,8 @@ function App() {
           />
         </Input>
         <Output>{marked.parse(mdInput)}</Output>
+        {showHelp && <Help setShowHelp={setShowHelp} />}
       </main>
     </div>
   );
 }
-
-export default App;

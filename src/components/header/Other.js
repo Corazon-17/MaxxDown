@@ -1,16 +1,21 @@
 import { ToolbarGroup, ToolbarItem } from "./Toolbar";
 import { Button, TextInput } from "../inputs/";
-import { FaDownload } from "react-icons/fa";
+import { FaDownload, FaInfoCircle } from "react-icons/fa";
 import { useState } from "react";
 
-export default function Other({ mdInput }) {
+export default function Other({ mdInput, showHelp, setShowHelp }) {
   const [filename, setFilename] = useState("");
   const fileDownload = require("js-file-download");
-  const downloadFile = () =>
+  const downloadFile = () => {
     fileDownload(mdInput, filename ? filename + ".md" : "readme.md");
+  }
 
   return (
     <ToolbarGroup>
+      <ToolbarItem>
+        <Button title="Help" icon={<FaInfoCircle />} onClick={() => setShowHelp(!showHelp)} />
+      </ToolbarItem>
+      
       <ToolbarItem>
         <TextInput
           value={filename}

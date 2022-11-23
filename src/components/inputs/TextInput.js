@@ -12,7 +12,7 @@ export default function TextInput({ value, setValue, placeholder, disabled }) {
             className={
                 disabled 
                 ? className + " w-12 border-l-2"
-                : className
+                : className + " w-full"
             }
             disabled={disabled}
         >

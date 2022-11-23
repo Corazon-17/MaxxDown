@@ -8,7 +8,7 @@ export default function Output({ children }) {
             prose 
             prose-invert
             max-w-none
-            prose-headings:mb-2
+            prose-headings:my-2            
             break-words
             bg-gray-800
         " 
